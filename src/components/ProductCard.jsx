@@ -6,7 +6,7 @@ const capitalizeCategoryFirstLetter = cat => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-const ProductCard = memo(function ProductCard({ product }) {
+const ProductCard = memo(function ProductCard({ product, priority }) {
   const { title, price, image, category, rating } = product;
 
   return (
@@ -15,7 +15,7 @@ const ProductCard = memo(function ProductCard({ product }) {
         <img
           src={image}
           alt={title}
-          loading="lazy"
+          loading={priority ? 'eager' : 'lazy'}
           decoding="async"
           className="object-contain h-full max-w-full "
         />

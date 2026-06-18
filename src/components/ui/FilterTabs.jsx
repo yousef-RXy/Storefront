@@ -1,45 +1,30 @@
-import { memo } from 'react';
+import { useState } from 'react';
 
-const formatCategoryName = str => {
-  if (str === "men's clothing") return "Men's";
-  if (str === "women's clothing") return "Women's";
-  if (str === 'jewelery') return 'Jewelry';
-  return str.charAt(0).toUpperCase() + str.slice(1);
-};
+const categories = ['All', "Men's", 'Jewelry', 'Electronics', "Women's"];
 
-const FilterTabs = memo(function FilterTabs({
-  categories,
-  selectedCategory,
-  onSelectCategory,
-}) {
+export default function ResponsiveFilters() {
+  const [activeCategory, setActiveCategory] = useState('All');
+
   return (
-    <div className="flex overflow-x-auto gap-3 pb-2 scrollbar-hide">
-      <button
-        onClick={() => onSelectCategory('All')}
-        className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
-          selectedCategory === 'All'
-            ? 'bg-[#f0a400] text-dark-bg shadow-[0_0_12px_rgba(240,164,0,0.4)]'
-            : 'bg-[#1c2128] text-gray-400 border border-[#30363d] hover:border-gray-500 hover:text-gray-200'
-        }`}
-      >
-        All
-      </button>
-
-      {categories.map(category => (
-        <button
-          key={category}
-          onClick={() => onSelectCategory(category)}
-          className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
-            selectedCategory === category
-              ? 'bg-[#f0a400] text-dark-bg shadow-[0_0_12px_rgba(240,164,0,0.4)]'
-              : 'bg-[#1c2128] text-gray-400 border border-[#30363d] hover:border-gray-500 hover:text-gray-200'
-          }`}
-        >
-          {formatCategoryName(category)}
-        </button>
-      ))}
+    <div className="w-full px-4">
+      <div className="flex flex-wrap sm:flex-nowrap gap-2">
+        {categories.map(category => {
+          const isActive = activeCategory === category;
+          return (
+            <button
+              key={category}
+              onClick={() => setActiveCategory(category)}
+              className={`grow basis-[28%] sm:grow-0 sm:basis-auto whitespace-nowrap rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 text-center ${
+                isActive
+                  ? 'bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/20'
+                  : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-slate-200'
+              }`}
+            >
+              {category}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
-});
-
-export default FilterTabs;
+}
