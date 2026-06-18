@@ -17,11 +17,11 @@ const useFetch = endpoint => {
 
       try {
         const response = await api.get(endpoint);
-        console.log(response.data);
         setData(response.data);
       } catch (error) {
-        console.log(error);
-        setError(error);
+        const errorMessage = error.message || 'An unexpected error occurred';
+        const status = error.status;
+        setError({ errorMessage, status });
       } finally {
         setLoading(false);
       }
