@@ -1,19 +1,17 @@
-import { useState } from 'react';
-
-const categories = ['All', "Men's", 'Jewelry', 'Electronics', "Women's"];
-
-export default function ResponsiveFilters() {
-  const [activeCategory, setActiveCategory] = useState('All');
-
+export default function ResponsiveFilters({
+  categories,
+  selectedCategory,
+  onSelectCategory,
+}) {
   return (
     <div className="w-full px-4">
       <div className="flex flex-wrap sm:flex-nowrap gap-2">
         {categories.map(category => {
-          const isActive = activeCategory === category;
+          const isActive = selectedCategory === category;
           return (
             <button
               key={category}
-              onClick={() => setActiveCategory(category)}
+              onClick={() => onSelectCategory(category)}
               className={`grow basis-[28%] sm:grow-0 sm:basis-auto whitespace-nowrap rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 text-center ${
                 isActive
                   ? 'bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/20'

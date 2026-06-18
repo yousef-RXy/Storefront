@@ -23,7 +23,7 @@ function App() {
     const uniqueCategories = new Set(
       allProducts.map(product => product.category),
     );
-    return Array.from(uniqueCategories);
+    return ['All', ...Array.from(uniqueCategories)];
   }, [allProducts]);
 
   const filteredAndSortedProducts = useMemo(() => {
