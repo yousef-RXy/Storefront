@@ -2,12 +2,13 @@ import { useState } from 'react';
 import useFetch from './hooks/useFetch';
 import useDebounce from './hooks/useDebounce';
 import ProductList from './components/ProductList';
+import ErrorState from './components/ui/ErrorState';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('jack');
   const debouncedSearch = useDebounce(searchTerm, 300);
 
-  const { data: allProducts, loading, error } = useFetch('/productds');
+  const { data: allProducts, loading, error } = useFetch('/products');
 
   const filteredProducts =
     allProducts?.filter(product =>
@@ -36,12 +37,7 @@ function App() {
           </div>
         )}
 
-        {error && (
-          <div className="text-center py-20 text-red-400">
-            <p>Error loading content: {error.errorMessage}</p>
-            <p>Error loading content: {error.status}</p>
-          </div>
-        )}
+        {error && !loading && <ErrorState error={error} />}
 
         {!loading && !error && (
           <ProductList
