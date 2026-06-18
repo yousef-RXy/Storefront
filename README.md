@@ -50,21 +50,26 @@ To optimize the Largest Contentful Paint (LCP) score, list iteration rules check
 Make sure Node.js is configured on your machine. This repository is optimized for `pnpm` execution.
 
 ### 1. Clone and Enter Project
+```bash
 git clone <repository-url>
 cd storefront
+```
 
 ### 2. Install Project Dependencies
+```bash
 pnpm install
-
+```
 ### 3. Initialize Local Development Environment
+```bash
 pnpm dev
-
+```
 Open the provided local port URL inside your browser view to display the live application layout.
 
 ### 4. Build and Preview Production Deliverables
+```bash
 pnpm build
 pnpm preview
-
+```
 ---
 
 ## Challenges and Solutions
