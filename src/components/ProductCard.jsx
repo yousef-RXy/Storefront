@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import StarRating from './ui/StarRating';
 
 const capitalizeCategoryFirstLetter = cat => {
@@ -5,7 +6,7 @@ const capitalizeCategoryFirstLetter = cat => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-function ProductCard({ product }) {
+const ProductCard = memo(function ProductCard({ product }) {
   const { title, price, image, category, rating } = product;
 
   return (
@@ -51,6 +52,6 @@ function ProductCard({ product }) {
       </div>
     </div>
   );
-}
+});
 
 export default ProductCard;

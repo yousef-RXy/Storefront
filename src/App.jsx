@@ -3,17 +3,21 @@ import useFetch from './hooks/useFetch';
 import useDebounce from './hooks/useDebounce';
 import ProductList from './components/ProductList';
 import ErrorState from './components/ui/ErrorState';
+import { useMemo } from 'react';
 
 function App() {
-  const [searchTerm, setSearchTerm] = useState('jack');
+  const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearch = useDebounce(searchTerm, 300);
 
   const { data: allProducts, loading, error } = useFetch('/products');
 
-  const filteredProducts =
-    allProducts?.filter(product =>
-      product.title.toLowerCase().includes(debouncedSearch.toLowerCase()),
-    ) || [];
+  const filteredProducts = useMemo(() => {
+    return (
+      allProducts?.filter(product =>
+        product.title.toLowerCase().includes(debouncedSearch.toLowerCase()),
+      ) || []
+    );
+  }, [allProducts, debouncedSearch]);
 
   return (
     <div className="min-h-screen bg-dark-bg text-white p-6">
