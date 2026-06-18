@@ -1,3 +1,6 @@
+> **Notice:** An advanced version of this storefront application built with Next.js is available. You can check out the [Next.js GitHub Repository](https://github.com/yousef-RXy/Storefront_next) or view the [Next.js Live Demo](https://next.storefront.xediaeg.com/).
+
+---
 # Storefront Application (React + Vite)
 
 A responsive single-page e-commerce storefront built with React, Vite, and Tailwind CSS v4. This client-side application demonstrates modular component architecture, custom hooks, and rendering optimizations to minimize re-renders when managing real-time filtering and sorting logic.
