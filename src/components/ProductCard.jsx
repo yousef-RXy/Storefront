@@ -14,6 +14,8 @@ function ProductCard({ product }) {
         <img
           src={image}
           alt={title}
+          loading="lazy"
+          decoding="async"
           className="object-contain h-full max-w-full "
         />
       </div>
