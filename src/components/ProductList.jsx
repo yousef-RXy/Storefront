@@ -1,5 +1,5 @@
-import ProductCard from './ProductCard';
-import EmptyState from './ui/EmptyState';
+import { ProductCard } from './';
+import { EmptyState } from './ui';
 
 function ProductList({ products, searchTerm }) {
   if (!products || products.length === 0) {
