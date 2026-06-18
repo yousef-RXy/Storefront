@@ -1,56 +1,78 @@
-# Storefront Application
+# Storefront Application (React + Vite)
 
-A modern e-commerce storefront built with React 19, Vite, and Tailwind CSS v4. This single-page application fetches, displays, sorts, and filters catalog data in real time from the public Fake Store API. It is optimized for responsiveness, clean code architecture, and high rendering performance.
+A responsive single-page e-commerce storefront built with React, Vite, and Tailwind CSS v4. This client-side application demonstrates modular component architecture, custom hooks, and rendering optimizations to minimize re-renders when managing real-time filtering and sorting logic.
 
 ## Features
 
-### 1. Responsive UI and Modular Component Structure
-* **Component Reusability**: The user interface is broken down into small, isolated, and highly reusable components such as `SearchBar`, `FilterTabs`, `SortDropdown`, `ProductCard`, `EmptyState`, and `ErrorState`.
-* **Clean Architecture**: The project follows a strict logical directory structure separating components, custom UI elements, custom hooks, and API utilities.
-* **Fluid Responsiveness**: Built with a mobile-first approach using Tailwind CSS. The product catalog automatically scales from a 1-column grid on mobile to a 2-column grid on tablets, and up to a 4-column grid on desktop monitors.
+### 1. Component Structure and Reusability
+* **Modular Codebase**: Organized into clear directories comprising `/components`, `/components/ui`, `/hooks`, and `/utils`.
+* **Reusable Layout Components**: Elements are broken down into self-contained components including `SearchBar`, `FilterTabs`, `SortDropdown`, `StarRating`, `EmptyState`, and `ErrorState`.
+* **Responsive Layout**: Designed with a mobile-first approach using Tailwind CSS. The catalog layout switches dynamically from 1 column on small phone displays to a 4-column configuration on large desktop viewports.
 
 ### 2. Data Fetching and State Resiliency
-* **Centralized API Client**: Network interactions are managed via a dedicated Axios instance configured with base configurations and explicit timeouts to prevent hanging requests.
-* **Declarative Custom Hook**: A custom `useFetch` hook isolates the asynchronous data lifecycle, handling loading indicators and tracking network exceptions natively.
-* **Graceful Error Recovery**: The application intercepts network failures and displays an interactive error state showing error status codes with a retry action to minimize friction.
+* **Centralized Axios Client**: Configured with a `baseURL` pointing to the Fake Store API and restricted to a 10000ms timeout window to safeguard against hanging connections.
+* **Custom useFetch Hook**: Isolates data fetching code cleanly, managing `data`, `loading`, and `error` states automatically inside a reactive ecosystem.
+* **Graceful Exception Recovery**: Captures status criteria and error communications natively, rendering an interactive warning layout that lets users trigger hard window reloads.
 
 ### 3. Real-Time Interactivity
-* **Instant Filter Matching**: Client-side query comparisons update the product feed instantly as text inputs change.
-* **Multi-Criteria Sorting**: Offers seamless sorting capabilities, allowing users to arrange data by featured relevance, price scaling, or consumer rating metrics.
-* **Zero-Result fallbacks**: Dedicated empty states handle unmatched parameters gracefully to guide users back to active browsing.
-
----
-
-## Tech Stack and Libraries
-
-* **Framework**: React 19
-* **Build Tool**: Vite
-* **Styling Engine**: Tailwind CSS v4
-* **HTTP Client**: Axios (chosen for its robust request/response interception, timeout management, and cleaner syntax compared to the native Fetch API)
-* **Iconography**: Lucide React (chosen for its extensive, lightweight, and customizable SVG icon set)
-* **Loading Indicators**: React Loader Spinner (provides crisp, configurable animations that align with the minimalist theme)
+* **Live Product Search**: Filters product collections client-side in real time based on user keyword entries.
+* **Category Filtering**: A dynamically rendered tab engine matches structural entries across catalog indices, updating arrays accurately on command.
+* **Multi-Criteria Sorting**: Empowers buyers to organize inventory details by basic featured indexing, ascending or descending price variations, or top consumer rating values.
 
 ---
 
 ## Technical Optimizations (The "Pro" Challenge)
 
-### Debounced Search Query Inputs
-To prevent expensive data processing and UI updates on every individual keystroke, a custom `useDebounce` hook intercepts search entries. It delays the evaluation of state variations by 300ms, protecting the list from unnecessary rendering cycles during active typing.
+### Debounced State Controls
+To protect main compilation threads from handling computational sorting cycles on every single keystroke, a custom `useDebounce` hook buffers data mutations. The application delays array evaluations until typing actions stop for 300ms.
 
-### Memoized Computations and Strict Component Updates
-* Heavy operations, such as matching item categories or recalculating the sorted list arrangement, are wrapped in `useMemo` blocks to safeguard runtime caching unless source arrays change.
-* The `ProductCard` component leverages `React.memo` to skip re-rendering when parent state adjustments occur independently of the product's immutable data.
+### Memoized Computations and Strict Component Tree Boundaries
+* Heavy processing routines, such as parsing structural array data to extract distinct categories and ordering lists, are contained within `useMemo` hooks.
+* The `ProductCard` component leverages `React.memo` to skip update cycles if parent component state triggers modifications that do not affect the product's unique data properties.
 
-### Viewport Image Loading Performance
-To enhance the Largest Contentful Paint metric, layout configurations dynamically evaluate the indexing position of rendered products. The first 4 catalog items are assigned an eager loading property to fill critical viewport frames immediately, while subsequent items use lazy loading configurations alongside asynchronous decoding to avoid blocking main thread performance.
+### Viewport Priority Image Loading
+To optimize the Largest Contentful Paint (LCP) score, list iteration rules check array index positions. The first four catalog items use an `eager` loading attribute to display quickly, while lower cards default to `lazy` loading properties and asynchronous decoding to keep scrolling smooth.
+
+---
+
+## Tech Stack and Libraries
+
+* **Framework Engine**: React 19
+* **Build System**: Vite 8
+* **Styling Preprocessor**: Tailwind CSS v4 & PostCSS
+* **Network Client**: Axios (chosen for its robust timeout configurations and built-in error encapsulation properties)
+* **Icon Library**: Lucide React
 
 ---
 
 ## Installation and Setup
 
-Ensure you have Node.js installed on your local environment. This project uses `pnpm` for package management.
+Make sure Node.js is configured on your machine. This repository is optimized for `pnpm` execution.
 
-### 1. Clone the Repository
-```bash
+### 1. Clone and Enter Project
 git clone <repository-url>
 cd storefront
+
+### 2. Install Project Dependencies
+pnpm install
+
+### 3. Initialize Local Development Environment
+pnpm dev
+
+Open the provided local port URL inside your browser view to display the live application layout.
+
+### 4. Build and Preview Production Deliverables
+pnpm build
+pnpm preview
+
+---
+
+## Challenges and Solutions
+
+### Challenge 1: Redundant Item Re-renders During Active Search Typing
+* **Problem**: Changing character entries inside search inputs mutated state variables on every stroke, forcing full array calculations and slowing down performance.
+* **Solution**: Developed a dedicated custom `useDebounce` hook. The processing component waits until input pauses for 300ms before triggering filtering logic, reducing compute cycles.
+
+### Challenge 2: Handling Image Loading and Cumulative Layout Shifts
+* **Problem**: Unpredictable download times for image resources from public CDNs caused grid elements to jump around, hurting user experience metrics.
+* **Solution**: Set explicit height restraints and structured centering flex grids inside card components. The layout sets early viewport images to download eagerly, while subsequent items use lazy loading configurations alongside asynchronous decoding to avoid blocking main thread performance.
